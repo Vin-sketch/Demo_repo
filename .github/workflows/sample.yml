@@ -57,4 +57,4 @@ jobs:
       name: Production
     steps:
       - name: Deploy
-        run: echo Hello, ${{vars.prod_job}} is done!
+        run: echo Hello, ${{vars.first_variable}} is done!
