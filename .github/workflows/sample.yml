@@ -1,0 +1,58 @@
+name: CI + CD
+on:
+  workflow_dispatch:
+    inputs:
+      Environment_Selection:
+        description: Select the Environment
+        type: choice
+        required: true
+        options:
+          - DEV
+          - STAG
+          - PROD
+      Job_Selection:
+        description: Select JOB
+        type: choice
+        required: true
+        options:
+          - Build
+          - Test
+          - Deploy
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    environment:
+      name: Build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile
+        run: |
+          echo Hello, ${{vars.build_job}} is done! 
+
+  DeployDev:
+    if: (github.event.inputs.Environment_Selection == 'DEV' && github.event.inputs.Job_Selection == 'Build')
+    runs-on: ubuntu-latest
+    environment: 
+      name: Development
+    steps:
+      - name: Deploy
+        run: |
+          echo Hello, ${{vars.develop_job}} is done!
+
+  DeployStaging:
+    if: (github.event.inputs.Environment_Selection == 'STAG' && github.event.inputs.Job_Selection == 'Test')
+    runs-on: ubuntu-latest
+    environment: 
+      name: Staging
+    steps:
+      - name: Deploy
+        run: echo Hello, ${{vars.stag_job}} is done!
+
+  DeployProd:
+    if: (github.event.inputs.Environment_Selection == 'PROD' && github.event.inputs.Job_Selection == 'Deploy')
+    runs-on: ubuntu-latest
+    environment: 
+      name: Production
+    steps:
+      - name: Deploy
+        run: echo Hello, ${{vars.prod_job}} is done!
