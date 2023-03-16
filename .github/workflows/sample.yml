@@ -38,6 +38,8 @@ jobs:
       - name: Deploy
         run: |
           echo Hello, ${{secrets.SECRET_NAME}} is done!
+          echo Hello, ${{vars.name}} is done!
+
 
   DeployStaging:
     if: (github.event.inputs.Environment_Selection == 'STAG' && github.event.inputs.Job_Selection == 'Test')
@@ -46,7 +48,7 @@ jobs:
       name: Staging
     steps:
       - name: Deploy
-        run: echo Hello, ${{vars.stag_job}} is done!
+        run: echo Hello, ${{vars.name}} is done!
 
   DeployProd:
     if: (github.event.inputs.Environment_Selection == 'PROD' && github.event.inputs.Job_Selection == 'Deploy')
