@@ -37,7 +37,7 @@ jobs:
     steps:
       - name: Deploy
         run: |
-          echo Hello, ${{vars.develop_job}} is done!
+          echo Hello, ${{secrets.SECRET_NAME}} is done!
 
   DeployStaging:
     if: (github.event.inputs.Environment_Selection == 'STAG' && github.event.inputs.Job_Selection == 'Test')
