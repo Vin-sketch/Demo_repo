@@ -1,4 +1,4 @@
-name: CI + CD
+name: Sample_Pipeline
 on:
   workflow_dispatch:
     inputs:
@@ -7,17 +7,9 @@ on:
         type: choice
         required: true
         options:
-          - DEV
-          - STAG
-          - PROD
-      Job_Selection:
-        description: Select JOB
-        type: choice
-        required: true
-        options:
-          - Build
+          - Dev
           - Test
-          - Deploy
+          - Prod
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -28,12 +20,11 @@ jobs:
       - name: Compile
         run: |
           echo Hello, ${{vars.build_job}} is done! 
-
   DeployDev:
-    if: (github.event.inputs.Environment_Selection == 'DEV' && github.event.inputs.Job_Selection == 'Build')
+    if: (github.event.inputs.Environment_Selection == 'Dev')
     runs-on: ubuntu-latest
     environment: 
-      name: Development
+      name: Dev
     steps:
       - name: Deploy
         run: |
@@ -41,20 +32,20 @@ jobs:
           echo Hello, ${{vars.name}} is done!
 
 
-  DeployStaging:
-    if: (github.event.inputs.Environment_Selection == 'STAG' && github.event.inputs.Job_Selection == 'Test')
+  DeployTest:
+    if: (github.event.inputs.Environment_Selection == 'Test')
     runs-on: ubuntu-latest
     environment: 
-      name: Staging
+      name: Test
     steps:
       - name: Deploy
         run: echo Hello, ${{vars.name}} is done!
 
   DeployProd:
-    if: (github.event.inputs.Environment_Selection == 'PROD' && github.event.inputs.Job_Selection == 'Deploy')
+    if: (github.event.inputs.Environment_Selection == 'Prod')
     runs-on: ubuntu-latest
     environment: 
-      name: Production
+      name: Prod
     steps:
       - name: Deploy
         run: echo Hello, ${{vars.first_variable}} is done!
