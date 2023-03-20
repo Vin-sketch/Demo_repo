@@ -28,8 +28,9 @@ jobs:
     steps:
       - name: Deploy
         run: |
-          echo Hello, ${{secrets.SECRET_NAME}} is done!
-          echo Hello, ${{vars.name}} is done!
+          echo Datebase Host : ${{secrets.DB_Host}} 
+          echo database password:  ${{secrets.DB_PASSWORD}}
+          echo Hello, ${{vars.first_variable}} is done!
 
 
   DeployTest:
