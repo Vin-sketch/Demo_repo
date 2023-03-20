@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       config:
-        description: ../../input.yml
+        description: input.yml
         required: true
 jobs:
   Build:
