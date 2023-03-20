@@ -1,8 +1,10 @@
 name: Sample_Pipeline
 on:
   workflow_dispatch:
-    include:
-      - '../../input.yml'
+    inputs:
+      config:
+        description: '../../input.yml'
+        required: true
 jobs:
   Build:
     runs-on: ubuntu-latest
