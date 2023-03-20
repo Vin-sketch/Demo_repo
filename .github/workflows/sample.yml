@@ -2,9 +2,14 @@ name: Sample_Pipeline
 on:
   workflow_dispatch:
     inputs:
-      config:
-        description: input.yml
+      Environment_Selection:
+        description: Select the Environment
+        type: choice
         required: true
+        options:
+          - Dev
+          - Test
+          - Prod
 jobs:
   Build:
     runs-on: ubuntu-latest
