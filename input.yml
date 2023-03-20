@@ -1,0 +1,9 @@
+inputs:
+  Environment_Selection:
+    description: Select the Environment
+    type: choice
+    required: true
+    options:
+      - Dev
+      - Test
+      - Prod
