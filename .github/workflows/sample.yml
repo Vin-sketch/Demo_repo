@@ -1,52 +1,15 @@
-name: Sample_Pipeline
+name: Slack Notification
 on:
-  workflow_dispatch:
-    inputs:
-      Environment_Selection:
-        description: Select the Environment
-        type: choice
-        required: true
-        options:
-          - Dev
-          - Test
-          - Prod
+  push:
+    branches:
+      - main
 jobs:
-  Build:
+  slack-notification:
     runs-on: ubuntu-latest
-    environment:
-      name: Build
     steps:
-      - uses: actions/checkout@v2
-      - name: Compile
-        run: |
-          echo Hello, ${{vars.build_job}} is done! 
-  DeployDev:
-    if: (github.event.inputs.Environment_Selection == 'Dev')
-    runs-on: ubuntu-latest
-    environment: 
-      name: Dev
-    steps:
-      - name: Deploy
-        run: |
-          echo Datebase Host : ${{secrets.DB_Host}} 
-          echo database password:  ${{secrets.DB_PASSWORD}}
-          echo Hello, ${{vars.first_variable}} is done!
-
-
-  DeployTest:
-    if: (github.event.inputs.Environment_Selection == 'Test')
-    runs-on: ubuntu-latest
-    environment: 
-      name: Test
-    steps:
-      - name: Deploy
-        run: echo Hello, ${{vars.name}} is done!
-
-  DeployProd:
-    if: (github.event.inputs.Environment_Selection == 'Prod')
-    runs-on: ubuntu-latest
-    environment: 
-      name: Prod
-    steps:
-      - name: Deploy
-        run: echo Hello, ${{vars.first_variable}} is done!
+    - name: Send Slack Notification
+      uses: rtCamp/action-slack-notify@v2.1.0
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      with:
+        args: '{"text": "A push has been made to the main branch!"}'
